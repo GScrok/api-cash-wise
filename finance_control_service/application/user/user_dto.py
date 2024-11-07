@@ -1,9 +1,14 @@
-class UserDto(object):
-    id: int
-    username: str
-    email: str
+from dataclasses import dataclass
 
-    def __init__(self, id: int, username: str, email: str):
+@dataclass
+class UserDTO(object):
+    id: int
+    email: str
+    first_name: str | None
+    last_name: str | None
+
+    def __init__(self, id: int, email: str, first_name: str = None, last_name: str = None):
         self.id = id
-        self.username = username
         self.email = email
+        self.first_name = first_name
+        self.last_name = last_name

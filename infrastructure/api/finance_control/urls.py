@@ -1,4 +1,13 @@
 from django.urls import path
 
+from finance_control.views.login_view import LoginView
+from finance_control.views.user_view import UsersView
+from finance_control.views.categories_view import CategoriesView
+
 urlpatterns = [
+    path('auth/login/', LoginView.as_view(), name='login'),
+    path('users/', UsersView.as_view(), name='users-list'),
+    path('users/<uuid:pk>/', UsersView.as_view(), name='user-detail'),
+    path('categories/', CategoriesView.as_view(), name='categories-list'),
+    path('categories/<uuid:pk>/', CategoriesView.as_view(), name='category-detail'),
 ]
