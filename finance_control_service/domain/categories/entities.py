@@ -16,17 +16,16 @@ class Category(object):
         self.description = description
         self.budget_limit = budget_limit
 
-    def create_category(self):
+    def create(self):
         self.is_valid()
 
-    def update_category(self):
+    def update(self):
         self.is_valid()
 
         if not self.id:
             raise CategoryUpdateRequiresExistingCategoryId('Cannot update a record without its Id')
 
     def is_valid(self):
-        print(self.id)
         if self.budget_limit and self.budget_limit < 0:
             raise BudgetLimitMustBeGreaterThanZero('The budget limit must be greater than zero')
         if self.name == '':

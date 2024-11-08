@@ -8,24 +8,23 @@ class CategoryService(object):
     def __init__(self, storage: CategoryStorage):
         self.storage = storage
 
-    def get_all_categories(self, user_id: int):
-        return self.storage.get_all_categories(user_id)
+    def get_all(self, user_id: int):
+        return self.storage.get_all(user_id)
     
-    def get_category_by_id(self, category_id: int):
-        return self.storage.get_category_by_id(category_id)
+    def get_by_id(self, category_id: int):
+        return self.storage.get_by_id(category_id)
     
-    def create_new_category(self, category_dto: CategoryDto):
+    def create(self, category_dto: CategoryDto):
         category = category_dto.to_domain()
-        category.create_category()
+        category.create()
         final_dto = category_dto.to_dto(category)
-        return self.storage.save_category(final_dto)
+        return self.storage.save(final_dto)
 
-    def update_category(self, category_dto: CategoryDto):
+    def update(self, category_dto: CategoryDto):
         category = category_dto.to_domain()
-        category.update_category()
+        category.update()
         final_dto = category_dto.to_dto(category)
-        print(f'final_dto { final_dto}')
-        return self.storage.update_category(final_dto)
+        return self.storage.update(final_dto)
         
-    def delete_category(self, category_id: int):
-        self.storage.delete_category(category_id)
+    def delete(self, category_id: int):
+        self.storage.delete(category_id)

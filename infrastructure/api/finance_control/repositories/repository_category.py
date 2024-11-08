@@ -9,7 +9,7 @@ class CategoryRepository(CategoryStorage):
     def _category_dto_to_model(self, category_dto: CategoryDto):
         user = User.objects.get(pk=category_dto.user.id)
 
-        category =  Category()
+        category = Category()
         category.name = category_dto.name
         category.user = user
         category.budget_limit = category_dto.budget_limit
@@ -20,32 +20,34 @@ class CategoryRepository(CategoryStorage):
         user_dto = UserDTO(category.user.id, category.user.email, category.user.first_name, category.user.last_name)
 
         category_dto = CategoryDto(
-            category.name,
-            user_dto,
-            category.id,
-            category.budget_limit,
-            category.description,
+            {
+                'name': category.name,
+                'id': category.id,
+                'user': user_dto,
+                'budget_limit': category.budget_limit,
+                'description': category.description,
+            },
         )
         return category_dto
 
-    def get_category_by_id(self, category_id: UUID):
+    def get_by_id(self, category_id: UUID):
         category = Category.objects.get(pk=category_id)
         return self._model_to_dto(category)
     
-    def get_all_categories(self, user_id: int):
+    def get_all(self, user_id: int):
         categories = Category.objects.filter(user_id=user_id)
         return [self._model_to_dto(category) for category in categories]
 
-    def save_category(self, category_dto: CategoryDto):
+    def save(self, category_dto: CategoryDto):
         category = self._category_dto_to_model(category_dto)
         category.save()
         return self._model_to_dto(category)
     
-    def update_category(self, category_dto: CategoryDto):
+    def update(self, category_dto: CategoryDto):
         category = self._category_dto_to_model(category_dto)
         category.save()
         return self._model_to_dto(category)
     
-    def delete_category(self, category_id: int):
+    def delete(self, category_id: int):
         category = Category.objects.get(pk=category_id)
         category.delete()

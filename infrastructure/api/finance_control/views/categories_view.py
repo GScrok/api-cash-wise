@@ -8,21 +8,26 @@ from finance_control_service.application.categories.categories_dto import Catego
 from finance_control.repositories.repository_user import UserRepository
 from finance_control.repositories.repository_category import CategoryRepository
 
+from finance_control.serializers.serializer_category import CategorySerializer
+
 from dataclasses import asdict
 
 class CategoriesView(APIView):
     def get(self, request, pk=None):
+        if not pk:
+            return Response({'error': 'ID da categoria não informado'}, status=status.HTTP_400_BAD_REQUEST)
+
         user_repository = UserRepository()
-        user_dto = user_repository.get_user_by_id(request.user.id)
-        
+        user_dto = user_repository.get_by_id(request.user.id)
+
         repository = CategoryRepository()
         service = CategoryService(repository)
 
         if pk:
-            response = service.get_category_by_id(pk)
+            response = service.get_by_id(pk)
             response = asdict(response)
         else:
-            response = service.get_all_categories(user_dto.id)
+            response = service.get_all(user_dto.id)
             response = [asdict(item) for item in list(response)]
 
 
@@ -35,17 +40,20 @@ class CategoriesView(APIView):
     - description: Descrição da categoria
     """
     def post(self, request):
-        name = request.data.get('name')
-        budget_limit = request.data.get('budget_limit')
-        description = request.data.get('description')
-        
-        user_repository = UserRepository()
-        user_dto = user_repository.get_user_by_id(request.user.id)
+        serializer = CategorySerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        category_dto = CategoryDto(name, user_dto, budget_limit, description)
+        user_repository = UserRepository()
+        user_dto = user_repository.get_by_id(request.user.id)
+
+        data = serializer.validated_data
+        data['user'] = user_dto
+
+        category_dto = CategoryDto(data)
         repository = CategoryRepository()
         service = CategoryService(repository)
-        response = service.create_new_category(category_dto)
+        response = service.create(category_dto)
 
         return Response(asdict(response), status=status.HTTP_201_CREATED)
 
@@ -57,24 +65,33 @@ class CategoriesView(APIView):
     - description: Descrição da categoria
     """
     def put(self, request, pk=None):
-        name = request.data.get('name')
-        budget_limit = request.data.get('budget_limit')
-        description = request.data.get('description')
-        print(pk)
-        user_repository = UserRepository()
-        user_dto = user_repository.get_user_by_id(request.user.id)
+        if not pk:
+            return Response({'error': 'ID da categoria não informado'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer = CategorySerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        category_dto = CategoryDto(name, user_dto, pk, budget_limit, description)
+        user_repository = UserRepository()
+        user_dto = user_repository.get_by_id(request.user.id)
+
+        data = serializer.validated_data
+        data['id'] = pk
+        data['user'] = user_dto
+
+        category_dto = CategoryDto(data)
         repository = CategoryRepository()
         service = CategoryService(repository)
-        response = service.update_category(category_dto)
-        print(response)
+        response = service.update(category_dto)
 
         return Response(asdict(response), status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
+        if not pk:
+            return Response({'error': 'ID da categoria não informado'}, status=status.HTTP_400_BAD_REQUEST)
+        
         repository = CategoryRepository()
         service = CategoryService(repository)
-        service.delete_category(pk)
+        service.delete(pk)
 
         return Response(status=status.HTTP_204_NO_CONTENT)

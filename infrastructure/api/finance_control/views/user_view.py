@@ -9,7 +9,6 @@ from dataclasses import asdict
 class UsersView(APIView):
     def get(self, request, pk=None):
         repository = UserRepository()
-        print(pk)
         if pk:
             response = repository.get_user_by_id(pk)
             response = asdict(response)
@@ -36,7 +35,6 @@ class UsersView(APIView):
 
         repository = UserRepository()
         response = repository.create_user(username, password, email, first_name, last_name)
-        print(response) 
         return Response(asdict(response), status=status.HTTP_201_CREATED)
     
     def put(self, request, pk):

@@ -12,17 +12,26 @@ class CategoryDto(object):
     description : str
     budget_limit : float
 
-    def __init__(self, name, user: UserDTO, id=None, budget_limit=None, description=None):
-        self.name = name
-        self.user = user
-        self.id = id
-        self.budget_limit = budget_limit
-        self.description = description
+    def __init__(self, dict: dict):
+        self.name = dict.get('name')
+        self.user = dict.get('user')
+        self.id = dict.get('id')
+        self.budget_limit = dict.get('budget_limit')
+        self.description = dict.get('description')
 
     def to_domain(self):
         category = Category(self.name, self.user, self.id, self.budget_limit, self.description)
         return category
     
     def to_dto(self, category: Category):
-        category_dto = CategoryDto(category.name, category.user, category.id, category.budget_limit, category.description)
+        user_dto = UserDTO(category.user.id, category.user.email, category.user.first_name, category.user.last_name)
+
+        dict = {
+            'name': category.name,
+            'user': user_dto,
+            'id': category.id,
+            'budget_limit': category.budget_limit,
+            'description': category.description
+        }
+        category_dto = CategoryDto(dict)
         return category_dto
