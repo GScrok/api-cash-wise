@@ -39,6 +39,14 @@ class CategoryRepository(CategoryStorage):
         return [self._model_to_dto(category) for category in categories]
 
     def save(self, category_dto: CategoryDto):
+        existing_category = Category.objects.filter(
+            name=category_dto.name,
+            user_id=category_dto.user.id
+        ).first()
+        
+        if existing_category:
+            raise ValueError("A category with this name already exists.")
+
         category = self._category_dto_to_model(category_dto)
         category.save()
         return self._model_to_dto(category)

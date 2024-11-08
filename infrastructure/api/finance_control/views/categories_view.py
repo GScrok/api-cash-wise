@@ -50,10 +50,13 @@ class CategoriesView(APIView):
         data = serializer.validated_data
         data['user'] = user_dto
 
-        category_dto = CategoryDto(data)
-        repository = CategoryRepository()
-        service = CategoryService(repository)
-        response = service.create(category_dto)
+        try:
+            category_dto = CategoryDto(data)
+            repository = CategoryRepository()
+            service = CategoryService(repository)
+            response = service.create(category_dto)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(asdict(response), status=status.HTTP_201_CREATED)
 
@@ -79,10 +82,13 @@ class CategoriesView(APIView):
         data['id'] = pk
         data['user'] = user_dto
 
-        category_dto = CategoryDto(data)
-        repository = CategoryRepository()
-        service = CategoryService(repository)
-        response = service.update(category_dto)
+        try:    
+            category_dto = CategoryDto(data)
+            repository = CategoryRepository()
+            service = CategoryService(repository)
+            response = service.update(category_dto)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(asdict(response), status=status.HTTP_200_OK)
 
