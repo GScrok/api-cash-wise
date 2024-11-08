@@ -59,12 +59,13 @@ class CategoryRepository(CategoryStorage):
     def update(self, category_dto: CategoryDto):
         self._check_if_category_exists(category_dto)
 
-        category = self._category_dto_to_model(category_dto)
-
-        category_saved = Category.objects.get(pk=category_dto.id)
-        category.id = category_saved.id
-
+        category = Category.objects.get(pk=category_dto.id)
+        
+        category.name = category_dto.name
+        category.budget_limit = category_dto.budget_limit
+        category.description = category_dto.description
         category.save()
+        
         return self._model_to_dto(category)
         
     def delete(self, category_id: UUID):
