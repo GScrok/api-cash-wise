@@ -10,6 +10,7 @@ class CategoryRepository(CategoryStorage):
         user = User.objects.get(pk=category_dto.user.id)
 
         category = Category()
+        category.id = category_dto.id
         category.name = category_dto.name
         category.user = user
         category.budget_limit = category_dto.budget_limit
@@ -30,6 +31,16 @@ class CategoryRepository(CategoryStorage):
         )
         return category_dto
 
+    def _check_if_category_exists(self, category_dto: CategoryDto):
+        existing_category = Category.objects.filter(
+            name=category_dto.name,
+            user_id=category_dto.user.id
+        ).first()
+        
+        if existing_category:
+            raise ValueError("A category with this name already exists.")
+    
+
     def get_by_id(self, category_id: UUID):
         category = Category.objects.get(pk=category_id)
         return self._model_to_dto(category)
@@ -39,23 +50,23 @@ class CategoryRepository(CategoryStorage):
         return [self._model_to_dto(category) for category in categories]
 
     def save(self, category_dto: CategoryDto):
-        existing_category = Category.objects.filter(
-            name=category_dto.name,
-            user_id=category_dto.user.id
-        ).first()
-        
-        if existing_category:
-            raise ValueError("A category with this name already exists.")
+        self._check_if_category_exists(category_dto)
 
         category = self._category_dto_to_model(category_dto)
         category.save()
         return self._model_to_dto(category)
     
     def update(self, category_dto: CategoryDto):
+        self._check_if_category_exists(category_dto)
+
         category = self._category_dto_to_model(category_dto)
+
+        category_saved = Category.objects.get(pk=category_dto.id)
+        category.id = category_saved.id
+
         category.save()
         return self._model_to_dto(category)
-    
-    def delete(self, category_id: int):
+        
+    def delete(self, category_id: UUID):
         category = Category.objects.get(pk=category_id)
         category.delete()

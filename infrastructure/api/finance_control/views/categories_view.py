@@ -14,9 +14,6 @@ from dataclasses import asdict
 
 class CategoriesView(APIView):
     def get(self, request, pk=None):
-        if not pk:
-            return Response({'error': 'ID da categoria não informado'}, status=status.HTTP_400_BAD_REQUEST)
-
         user_repository = UserRepository()
         user_dto = user_repository.get_by_id(request.user.id)
 
