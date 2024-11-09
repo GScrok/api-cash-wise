@@ -1,6 +1,6 @@
 from finance_control_service.application.user.user_dto import UserDTO
 
-from ..models import User
+from finance_control.models import User
 
 class UserRepository:
     def _model_to_dto(self, user):

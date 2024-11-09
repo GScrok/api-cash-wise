@@ -5,10 +5,10 @@ from rest_framework.response import Response
 from finance_control_service.application.categories.categories_service import CategoryService
 from finance_control_service.application.categories.categories_dto import CategoryDto
 
-from finance_control.repositories.repository_user import UserRepository
-from finance_control.repositories.repository_category import CategoryRepository
+from infrastructure.api.finance_control.repositories.users_repository import UserRepository
+from finance_control.repositories.categories_repository import CategoryRepository
 
-from finance_control.serializers.serializer_category import CategorySerializer
+from infrastructure.api.finance_control.serializers.categories_serializer import CategorySerializer
 
 from dataclasses import asdict
 
@@ -83,7 +83,7 @@ class CategoriesView(APIView):
             category_dto = CategoryDto(data)
             repository = CategoryRepository()
             service = CategoryService(repository)
-            response = service.update(category_dto)
+            response = service.update(category_dto, pk)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 

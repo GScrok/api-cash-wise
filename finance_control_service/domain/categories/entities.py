@@ -23,14 +23,14 @@ class Category(object):
         self.is_valid()
 
         if not self.id:
-            raise CategoryUpdateRequiresExistingCategoryId('Cannot update a record without its Id')
+            raise CategoryUpdateRequiresExistingCategoryId('Cannot update a category without its Id')
 
     def is_valid(self):
         if self.budget_limit and self.budget_limit < 0:
-            raise BudgetLimitMustBeGreaterThanZero('The budget limit must be greater than zero')
+            raise BudgetLimitCategoryMustBeGreaterThanZero('The category budget limit must be greater than zero')
         if self.name == '':
-            raise NameCannotBeEmpty('The name cannot be empty')
+            raise NameCategoryCannotBeEmpty('The category name cannot be empty')
         if self.user is None:
-            raise UserCannotBeEmpty('The user cannot be empty')
+            raise UserCategoryCannotBeEmpty('The category user cannot be empty')
         if self.description and len(self.description) > 250:
-            raise DescriptionCannotBeGreaterThan250Characters('The description cannot be greater than 250 characters')
+            raise DescriptionCategoryCannotBeGreaterThan250Characters('The category description cannot be greater than 250 characters')

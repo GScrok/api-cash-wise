@@ -1,20 +1,24 @@
-class BudgetLimitMustBeGreaterThanZero(Exception):
+class BudgetLimitCategoryMustBeGreaterThanZero(Exception):
     def __init__(self, message):
         self.message = message
 
-class NameCannotBeEmpty(Exception):
+class NameCategoryCannotBeEmpty(Exception):
     def __init__(self, message):
         self.message = message
 
-class UserCannotBeEmpty(Exception):
+class UserCategoryCannotBeEmpty(Exception):
     def __init__(self, message):
         self.message = message
 
-class DescriptionCannotBeGreaterThan250Characters(Exception):
+class DescriptionCategoryCannotBeGreaterThan250Characters(Exception):
     def __init__(self, message):
         self.message = message
 
 class CategoryUpdateRequiresExistingCategoryId(Exception):
+    def __init__(self, message):
+        self.message = message
+
+class CategoryAlreadyExists(Exception):
     def __init__(self, message):
         self.message = message
 

@@ -13,4 +13,3 @@ class User:
     def is_valid(self):
         if "@" not in self.email or "." not in self.email.split("@")[-1]:
             raise InvalidEmailFormat("Invalid email format")
-    
