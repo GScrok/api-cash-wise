@@ -10,8 +10,6 @@ from finance_control.repositories.categories_repository import CategoryRepositor
 
 from infrastructure.api.finance_control.serializers.categories_serializer import CategorySerializer
 
-from dataclasses import asdict
-
 class CategoriesView(APIView):
     def get(self, request, pk=None):
         user_repository = UserRepository()
@@ -22,13 +20,10 @@ class CategoriesView(APIView):
 
         if pk:
             response = service.get_by_id(pk)
-            response = asdict(response)
         else:
             response = service.get_all(user_dto.id)
-            response = [asdict(item) for item in list(response)]
 
-
-        return Response(response, status=status.HTTP_200_OK)
+        return Response(CategorySerializer(response, many=True).data, status=status.HTTP_200_OK)
     
     """
     Parâmetros aceitos:
@@ -55,7 +50,7 @@ class CategoriesView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(asdict(response), status=status.HTTP_201_CREATED)
+        return Response(CategorySerializer(response).data, status=status.HTTP_201_CREATED)
 
     """
     Parâmetros aceitos:
@@ -87,7 +82,7 @@ class CategoriesView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(asdict(response), status=status.HTTP_200_OK)
+        return Response(CategorySerializer(response).data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
         if not pk:

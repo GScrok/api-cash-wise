@@ -10,8 +10,6 @@ from infrastructure.api.finance_control.repositories.cards_repository import Car
 
 from infrastructure.api.finance_control.serializers.cards_serializer import CardSerializer
 
-from dataclasses import asdict
-
 
 class CardsView(APIView):
     def get(self, request, pk=None):
