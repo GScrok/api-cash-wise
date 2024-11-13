@@ -5,6 +5,7 @@ from finance_control.views.user_view import UsersView
 from finance_control.views.categories_view import CategoriesView
 from finance_control.views.cards_view import CardsView
 from finance_control.views.account_view import AccountView
+from finance_control.views.subcategory_view import SubcategoryView
 
 urlpatterns = [
     path('auth/login/', LoginView.as_view(), name='login'),
@@ -16,4 +17,6 @@ urlpatterns = [
     path('cards/<uuid:pk>/', CardsView.as_view(), name='card-detail'),
     path('accounts/', AccountView.as_view(), name='accounts-list'),
     path('accounts/<uuid:pk>/', AccountView.as_view(), name='account-detail'),
+    path('subcategories/', SubcategoryView.as_view(), name='subcategories-list'),
+    path('subcategory/<uuid:pk>', SubcategoryView.as_view(), name='subcategory-detail')
 ]
