@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from uuid import UUID
 from finance_control_service.application.user.user_dto import UserDTO
-from finance_control_service.domain.account.entities import Account
+from finance_control_service.domain.accounts.entities import Account
 
 @dataclass
 class AccountDTO(object):

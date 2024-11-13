@@ -1,5 +1,5 @@
-from finance_control_service.application.account.account_storage import AccountStorage
-from finance_control_service.application.account.account_dto import AccountDTO
+from finance_control_service.application.accounts.accounts_storage import AccountStorage
+from finance_control_service.application.accounts.accounts_dto import AccountDTO
 from uuid import UUID
 
 class AccountService(object):

@@ -2,13 +2,13 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from infrastructure.api.finance_control.repositories.users_repository import UserRepository
-from infrastructure.api.finance_control.repositories.account_repository import AccountRepository
-from finance_control_service.application.account.account_service import AccountService
-from infrastructure.api.finance_control.serializers.account_serializer import AccountSerializer
-from finance_control_service.application.account.account_dto import AccountDTO
+from infrastructure.api.finance_control.repositories.accounts_repository import AccountRepository
+from finance_control_service.application.accounts.accounts_service import AccountService
+from infrastructure.api.finance_control.serializers.accounts_serializer import AccountSerializer
+from finance_control_service.application.accounts.accounts_dto import AccountDTO
 
 class AccountView(APIView):
-    
+
     def get(self, request, pk = None) -> Response:
         user_repository = UserRepository()
         user_dto = user_repository.get_by_id(request.user.id)

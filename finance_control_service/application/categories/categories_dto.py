@@ -5,7 +5,7 @@ from uuid import UUID
 from dataclasses import dataclass
 
 @dataclass
-class CategoryDto(object):
+class CategoryDTO(object):
     id: UUID
     name : str
     user : UserDTO
@@ -33,5 +33,5 @@ class CategoryDto(object):
             'budget_limit': category.budget_limit,
             'description': category.description
         }
-        category_dto = CategoryDto(dict)
+        category_dto = CategoryDTO(dict)
         return category_dto

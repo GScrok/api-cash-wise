@@ -57,4 +57,3 @@ class Card(object):
 
     def _valid_if_is_number(self, value):
         return value.isdigit()
-

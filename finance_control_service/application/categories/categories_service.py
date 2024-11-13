@@ -1,4 +1,4 @@
-from finance_control_service.application.categories.categories_dto import CategoryDto
+from finance_control_service.application.categories.categories_dto import CategoryDTO
 from finance_control_service.domain.categories.exceptions import *
 from .categories_storage import CategoryStorage
 
@@ -16,7 +16,7 @@ class CategoryService(object):
     def get_by_id(self, category_id: int):
         return self.storage.get_by_id(category_id)
     
-    def create(self, category_dto: CategoryDto):
+    def create(self, category_dto: CategoryDTO):
         if self.storage.verify_existing_category_by_name(category_dto):
             raise CategoryAlreadyExists('A category with this name already exists.')
         
@@ -25,7 +25,7 @@ class CategoryService(object):
         final_dto = category_dto.to_dto(category)
         return self.storage.save(final_dto)
 
-    def update(self, category_dto: CategoryDto, id: UUID):
+    def update(self, category_dto: CategoryDTO, id: UUID):
         if self.storage.verify_existing_category_by_name_exclude_current(category_dto, id):
             raise CategoryAlreadyExists('A category with this name already exists.')
         

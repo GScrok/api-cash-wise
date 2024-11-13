@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
 
-from finance_control_service.application.account.account_dto import AccountDTO
+from finance_control_service.application.accounts.accounts_dto import AccountDTO
 
 class AccountStorage(ABC):
     

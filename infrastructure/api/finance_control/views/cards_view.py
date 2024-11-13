@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from finance_control_service.application.cards.cards_service import CardService
-from finance_control_service.application.cards.cards_dto import CardDto
+from finance_control_service.application.cards.cards_dto import CardDTO
 
 from infrastructure.api.finance_control.repositories.users_repository import UserRepository
 from infrastructure.api.finance_control.repositories.cards_repository import CardRepository
@@ -50,7 +50,7 @@ class CardsView(APIView):
         data['user'] = user_dto
 
         try:
-            card_dto = CardDto(data)
+            card_dto = CardDTO(data)
             repository = CardRepository()
             service = CardService(repository)
             response = service.create(card_dto)
@@ -87,7 +87,7 @@ class CardsView(APIView):
         data['user'] = user_dto
 
         try:
-            card_dto = CardDto(data)
+            card_dto = CardDTO(data)
             repository = CardRepository()
             service = CardService(repository)
             response = service.update(card_dto, pk)

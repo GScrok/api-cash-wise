@@ -4,7 +4,7 @@ from uuid import UUID
 from dataclasses import dataclass
 
 @dataclass
-class CardDto(object):
+class CardDTO(object):
     id: UUID
     name: str
     user: UserDTO
@@ -58,5 +58,5 @@ class CardDto(object):
             'is_active': card.is_active,
             'description': card.description
         }
-        card_dto = CardDto(dict)
+        card_dto = CardDTO(dict)
         return card_dto

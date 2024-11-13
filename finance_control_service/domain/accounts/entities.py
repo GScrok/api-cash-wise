@@ -1,7 +1,7 @@
 from uuid import UUID
 from datetime import datetime
 from finance_control_service.domain.user.entities import User
-from finance_control_service.domain.account.exceptions import *
+from finance_control_service.domain.accounts.exceptions import *
 
 class Account(object):
     

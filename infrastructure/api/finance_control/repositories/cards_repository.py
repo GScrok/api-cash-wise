@@ -1,12 +1,12 @@
 from finance_control_service.application.cards.cards_storage import CardStorage
-from finance_control_service.application.cards.cards_dto import CardDto
+from finance_control_service.application.cards.cards_dto import CardDTO
 from finance_control_service.application.user.user_dto import UserDTO
 from finance_control.models import Card, User
 
 from uuid import UUID
 
 class CardRepository(CardStorage):
-    def _card_dto_to_model(self, card_dto: CardDto):
+    def _card_dto_to_model(self, card_dto: CardDTO):
         user = User.objects.get(pk=card_dto.user.id)
 
         card = Card()
@@ -24,7 +24,7 @@ class CardRepository(CardStorage):
     def _model_to_dto(self, card: Card):
         user_dto = UserDTO(card.user.id, card.user.email, card.user.first_name, card.user.last_name)
 
-        card_dto = CardDto(
+        card_dto = CardDTO(
             {
                 'id': card.id,
                 'name': card.name,
@@ -40,7 +40,7 @@ class CardRepository(CardStorage):
         )
         return card_dto
 
-    def verify_existing_card_by_last_four_digits(self, card_dto: CardDto) -> bool:
+    def verify_existing_card_by_last_four_digits(self, card_dto: CardDTO) -> bool:
         existing_card = Card.objects.filter(
             card_last_four_digits=card_dto.card_last_four_digits,
             user_id=card_dto.user.id
@@ -48,7 +48,7 @@ class CardRepository(CardStorage):
         
         return existing_card is not None
     
-    def verify_existing_card_by_last_four_digits_exclude_current(self, card_dto: CardDto, pk: UUID) -> bool:
+    def verify_existing_card_by_last_four_digits_exclude_current(self, card_dto: CardDTO, pk: UUID) -> bool:
         existing_card = Card.objects.filter(
             card_last_four_digits=card_dto.card_last_four_digits,
             user_id=card_dto.user.id
@@ -64,12 +64,12 @@ class CardRepository(CardStorage):
         cards = Card.objects.filter(user_id=user_id)
         return [self._model_to_dto(card) for card in cards]
     
-    def save(self, card_dto: CardDto):
+    def save(self, card_dto: CardDTO):
         card = self._card_dto_to_model(card_dto)
         card.save()
         return self._model_to_dto(card)
     
-    def update(self, card_dto: CardDto):
+    def update(self, card_dto: CardDTO):
         card = Card.objects.get(pk=card_dto.id)
         
         card.name = card_dto.name

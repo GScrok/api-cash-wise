@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from infrastructure.api.finance_control.repositories.users_repository import UserRepository
 from infrastructure.api.finance_control.serializers.users_serializer import *
 
-from finance_control.serializers.users_serializer import UserSerializer
+from finance_control.serializers.users_serializer import UserUpdateSerializer
 
 class UsersView(APIView):
     def get(self, request, pk=None):
@@ -15,7 +15,7 @@ class UsersView(APIView):
         else:
             response = repository.get_all_users()
 
-        return Response(UserSerializer(response, many=True).data, status=status.HTTP_200_OK)
+        return Response(UserUpdateSerializer(response, many=True).data, status=status.HTTP_200_OK)
 
     """
     Parâmetros aceitos:
@@ -32,7 +32,7 @@ class UsersView(APIView):
         
         repository = UserRepository()
         response = repository.create_user(serializer.validated_data)
-        return Response(UserSerializer(response).data, status=status.HTTP_201_CREATED)
+        return Response(UserUpdateSerializer(response).data, status=status.HTTP_201_CREATED)
     
     def put(self, request, pk):
         if not pk:
@@ -44,7 +44,7 @@ class UsersView(APIView):
         
         repository = UserRepository()
         response = repository.update_user(pk, serializer.validated_data)
-        return Response(UserSerializer(response).data, status=status.HTTP_200_OK)
+        return Response(UserUpdateSerializer(response).data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
         if not pk:

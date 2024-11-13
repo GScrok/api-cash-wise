@@ -1,22 +1,22 @@
 from abc import ABC, abstractmethod
 
-from finance_control_service.application.user.user_dto import UserDto
+from finance_control_service.application.user.user_dto import UserDTO
 
 class UserStorage(ABC):
     @abstractmethod
-    def get_by_id(self, user_id) -> UserDto:
+    def get_by_id(self, user_id) -> UserDTO:
         pass
 
     @abstractmethod
-    def get_all(self) -> list[UserDto]:
+    def get_all(self) -> list[UserDTO]:
         pass
     
     @abstractmethod
-    def create(self, user_dto: UserDto) -> UserDto:
+    def create(self, user_dto: UserDTO) -> UserDTO:
         pass
 
     @abstractmethod
-    def update(self, user_dto: UserDto) -> UserDto:
+    def update(self, user_dto: UserDTO) -> UserDTO:
         pass
 
     @abstractmethod

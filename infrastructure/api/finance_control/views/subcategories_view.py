@@ -3,11 +3,11 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from finance_control_service.application.subcategory.subcategory_service import SubcategoryService
-from finance_control_service.application.subcategory.subcategory_dto import SubcategoryDTO
+from finance_control_service.application.subcategories.subcategories_service import SubcategoryService
+from finance_control_service.application.subcategories.subcategories_dto import SubcategoryDTO
 
 from finance_control.repositories.categories_repository import CategoryRepository
-from finance_control.repositories.subcategory_repository import SubcategoryRepository
+from infrastructure.api.finance_control.repositories.subcategories_repository import SubcategoryRepository
 
 from infrastructure.api.finance_control.serializers.subcategory_serializer import SubcategorySerializer
 
@@ -21,16 +21,14 @@ class SubcategoryView(APIView):
         self.repository = SubcategoryRepository()
         self.service = SubcategoryService(self.repository) 
     
-    def get(self, request, pk=None) -> Response:
-        category_repository = CategoryRepository()
-        category_dto = category_repository.get_by_id(request.category.id)
-        
+    def get(self, request, pk=None) -> Response:        
         if pk:
             response = self.service.get_by_id(pk)
         else:
-            response = self.service.get_all(category_dto.id)
+            response = self.service.get_all()
             
         return Response(SubcategorySerializer(response, many=True).data, status=status.HTTP_200_OK)
+    
     
     def post(self, request) -> Response:
         serializer = SubcategorySerializer(data=request.data)
@@ -81,4 +79,7 @@ class SubcategoryView(APIView):
         self.service.delete(pk)
         
         return Response(status=status.HTTP_204_NO_CONTENT)
-            
+
+class SubcategoryCustomView(APIView):
+    def get_all_by_category(self, request, pk=None):
+        return Response(status=status.HTTP_200_OK)

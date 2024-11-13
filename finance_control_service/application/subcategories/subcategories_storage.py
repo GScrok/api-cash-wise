@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from finance_control_service.application.subcategory.subcategory_dto import SubcategoryDTO
+from finance_control_service.application.subcategories.subcategories_dto import SubcategoryDTO
 
 from uuid import UUID
 

@@ -1,7 +1,7 @@
 from finance_control_service.application.user.user_dto import UserDTO
-from finance_control_service.application.categories.categories_dto import CategoryDto
-from finance_control_service.application.subcategory.subcategory_storage import SubcategoryStorage
-from finance_control_service.application.subcategory.subcategory_dto import SubcategoryDTO
+from finance_control_service.application.categories.categories_dto import CategoryDTO
+from finance_control_service.application.subcategories.subcategories_storage import SubcategoryStorage
+from finance_control_service.application.subcategories.subcategories_dto import SubcategoryDTO
 from finance_control.models import Subcategory, Category
 
 from uuid import UUID
@@ -23,7 +23,7 @@ class SubcategoryRepository(SubcategoryStorage):
     def _model_to_dto(self, subcategory: Subcategory) -> SubcategoryDTO:
         user_dto = UserDTO(subcategory.category.user.id, subcategory.category.user.email, subcategory.category.user.first_name, subcategory.category.user.last_name)
         
-        category_dto = CategoryDto({
+        category_dto = CategoryDTO({
             'id'          : subcategory.category.id,
             'name'        : subcategory.category.name,
             'user'        : user_dto,

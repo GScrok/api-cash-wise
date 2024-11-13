@@ -1,5 +1,5 @@
 from finance_control_service.domain.categories.entities import Category
-from finance_control_service.domain.subcategory.exceptions import *
+from finance_control_service.domain.subcategories.exceptions import *
 from uuid import UUID
 
 class Subcategory(object):

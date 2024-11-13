@@ -1,6 +1,6 @@
-from finance_control_service.application.subcategory.subcategory_storage import SubcategoryStorage
-from finance_control_service.application.subcategory.subcategory_dto import SubcategoryDTO
-from finance_control_service.domain.subcategory.exceptions import *
+from finance_control_service.application.subcategories.subcategories_storage import SubcategoryStorage
+from finance_control_service.application.subcategories.subcategories_dto import SubcategoryDTO
+from finance_control_service.domain.subcategories.exceptions import *
 
 from uuid import UUID
 
@@ -15,7 +15,7 @@ class SubcategoryService(object):
         return self.storage.get_all(category_id)
     
     def get_by_id(self, id: UUID) -> SubcategoryDTO:
-        return self.get_by_id(id)
+        return self.storage.get_by_id(id)
     
     def create(self, subcategory_dto: SubcategoryDTO) -> SubcategoryDTO:
         if self.storage.verify_existing_by_name(subcategory_dto):

@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from finance_control_service.application.categories.categories_service import CategoryService
-from finance_control_service.application.categories.categories_dto import CategoryDto
+from finance_control_service.application.categories.categories_dto import CategoryDTO
 
 from infrastructure.api.finance_control.repositories.users_repository import UserRepository
 from finance_control.repositories.categories_repository import CategoryRepository
@@ -43,7 +43,7 @@ class CategoriesView(APIView):
         data['user'] = user_dto
 
         try:
-            category_dto = CategoryDto(data)
+            category_dto = CategoryDTO(data)
             repository = CategoryRepository()
             service = CategoryService(repository)
             response = service.create(category_dto)
@@ -75,7 +75,7 @@ class CategoriesView(APIView):
         data['user'] = user_dto
 
         try:    
-            category_dto = CategoryDto(data)
+            category_dto = CategoryDTO(data)
             repository = CategoryRepository()
             service = CategoryService(repository)
             response = service.update(category_dto, pk)
