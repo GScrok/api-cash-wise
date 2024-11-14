@@ -37,5 +37,5 @@ class Subcategory(object):
         if not self.name:
             raise NameSubcategoryCannotBeEmpty('The subcategory name cannot be empty')
         
-        if self.description and len(self.description > 255):
+        if self.description and len(self.description) > 255:
             raise DescriptionSubcategoryCannotBeGreaterThan255Characters('The subcategory description cannot be greater than 255 characters')
