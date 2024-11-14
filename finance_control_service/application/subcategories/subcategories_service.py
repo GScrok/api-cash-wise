@@ -23,7 +23,7 @@ class SubcategoryService(object):
         
         subcategory = subcategory_dto.to_domain()
         subcategory.create()
-        final_dto = subcategory.to_dto(subcategory)
+        final_dto = subcategory_dto.to_dto(subcategory)
         return self.storage.save(final_dto)
     
     def update(self, subcategory_dto: SubcategoryDTO, id: UUID) -> SubcategoryDTO:
