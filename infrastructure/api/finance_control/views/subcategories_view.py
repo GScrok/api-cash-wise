@@ -81,5 +81,16 @@ class SubcategoryView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class SubcategoryCustomView(APIView):
-    def get_all_by_category(self, request, pk=None):
-        return Response(status=status.HTTP_200_OK)
+    
+    repository: SubcategoryRepository
+    service: SubcategoryService
+
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+        self.repository = SubcategoryRepository()
+        self.service = SubcategoryService(self.repository) 
+    
+    def get_all_by_category(self, request, pk):
+        response = self.service.get_all_by_category(pk)
+            
+        return Response(SubcategorySerializer(response, many=True).data, status=status.HTTP_200_OK)

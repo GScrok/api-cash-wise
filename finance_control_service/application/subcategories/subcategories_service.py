@@ -11,7 +11,10 @@ class SubcategoryService(object):
     def __init__(self, storage: SubcategoryStorage) -> None:
         self.storage = storage
         
-    def get_all(self, category_id: UUID) -> list[SubcategoryDTO]:
+    def get_all(self) -> list[SubcategoryDTO]:
+        return self.storage.get_all()
+    
+    def get_all_by_category(self, category_id: UUID) -> list[SubcategoryDTO]:
         return self.storage.get_all(category_id)
     
     def get_by_id(self, id: UUID) -> SubcategoryDTO:

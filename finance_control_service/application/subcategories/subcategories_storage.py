@@ -11,7 +11,11 @@ class SubcategoryStorage(ABC):
         pass
     
     @abstractmethod
-    def get_all(self, category_id: int) -> list[SubcategoryDTO]:
+    def get_all(self) -> list[SubcategoryDTO]:
+        pass
+    
+    @abstractmethod
+    def get_all_by_category(self, category_id: int) -> list[SubcategoryDTO]:
         pass
 
     @abstractmethod

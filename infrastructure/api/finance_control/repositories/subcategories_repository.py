@@ -58,7 +58,11 @@ class SubcategoryRepository(SubcategoryStorage):
     def get_by_id(self, id: UUID) -> SubcategoryDTO:
         return self._model_to_dto(Subcategory.objects.get(pk=id))
     
-    def get_all(self, category_id: UUID) -> list[SubcategoryDTO]:
+    def get_all(self) -> list[SubcategoryDTO]:
+        subcategories = Subcategory.objects.all()
+        return [self._model_to_dto(subcategory) for subcategory in subcategories]
+
+    def get_all_by_category(self, category_id: UUID) -> list[SubcategoryDTO]:
         subcategories = Subcategory.objects.filter(category_id=category_id)
         return [self._model_to_dto(subcategory) for subcategory in subcategories]
     
