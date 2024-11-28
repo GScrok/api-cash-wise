@@ -1,11 +1,12 @@
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 
 from infrastructure.api.finance_control.repositories.users_repository import UserRepository
 from infrastructure.api.finance_control.serializers.users_serializer import *
 
-from finance_control.serializers.users_serializer import UserUpdateSerializer
+from finance_control.serializers.users_serializer import UserUpdateSerializer, UserCreateSerializer
 
 class UsersView(APIView):
     def get(self, request, pk=None):
@@ -17,23 +18,6 @@ class UsersView(APIView):
 
         return Response(UserUpdateSerializer(response, many=True).data, status=status.HTTP_200_OK)
 
-    """
-    Parâmetros aceitos:
-    - username: Nome de usuário
-    - password: Senha do usuário
-    - email: Email do usuário
-    - first_name: Primeiro nome do usuário (opcional)
-    - last_name: Sobrenome do usuário (opcional)
-    """
-    def post(self, request):
-        serializer = UserCreateSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-        repository = UserRepository()
-        response = repository.create_user(serializer.validated_data)
-        return Response(UserUpdateSerializer(response).data, status=status.HTTP_201_CREATED)
-    
     def put(self, request, pk):
         if not pk:
             return Response({'error': 'ID do usuário não informado'}, status=status.HTTP_400_BAD_REQUEST)
@@ -53,3 +37,15 @@ class UsersView(APIView):
         repository = UserRepository()
         repository.delete_user(pk)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserCreateView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = UserCreateSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        repository = UserRepository()
+        response = repository.create_user(serializer.validated_data)
+        return Response(UserUpdateSerializer(response).data, status=status.HTTP_201_CREATED)
