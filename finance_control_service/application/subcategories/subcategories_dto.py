@@ -1,6 +1,4 @@
 from finance_control_service.domain.subcategories.entities import Subcategory
-from finance_control_service.application.categories.categories_dto import CategoryDTO
-from finance_control_service.application.user.user_dto import UserDTO
 from uuid import UUID
 
 from dataclasses import dataclass
@@ -9,7 +7,7 @@ from dataclasses import dataclass
 class SubcategoryDTO(object):
     
     id          : UUID
-    category    : CategoryDTO
+    category_id : UUID
     name        : str
     description : str
     budget_limit: float
@@ -17,7 +15,7 @@ class SubcategoryDTO(object):
     def __init__(self, data: dict) -> None:
         
         self.id           = data.get('id')
-        self.category     = data.get('category')
+        self.category_id  = data.get('category_id')
         self.name         = data.get('name')
         self.description  = data.get('description')
         self.budget_limit = data.get('budget_limit')
@@ -26,25 +24,9 @@ class SubcategoryDTO(object):
         return Subcategory(self.__dict__)
     
     def to_dto(self, subcategory: Subcategory) -> 'SubcategoryDTO':
-
-        user_dto = UserDTO(
-            id=subcategory.category.user.id,
-            email=subcategory.category.user.email,
-            first_name=subcategory.category.user.first_name,
-            last_name=subcategory.category.user.last_name
-        )
-        
-        category_dto = CategoryDTO({
-            'id': subcategory.category.id,
-            'name': subcategory.category.name,
-            'user': user_dto,
-            'budget_limit': subcategory.category.budget_limit,
-            'description': subcategory.category.description
-        })
-        
         return  SubcategoryDTO({
             'id': subcategory.id,
-            'category': category_dto,
+            'category_id': subcategory.category_id,
             'name': subcategory.name,
             'description': subcategory.description,
             'budget_limit': subcategory.budget_limit

@@ -26,19 +26,20 @@ class SubcategoryView(APIView):
             response = self.service.get_by_id(pk)
         else:
             response = self.service.get_all()
-            
+        
         return Response(SubcategorySerializer(response, many=True).data, status=status.HTTP_200_OK)
     
     
     def post(self, request) -> Response:
         serializer = SubcategorySerializer(data=request.data)
         if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
-        
-        category_repository = CategoryRepository()
-        category_dto = category_repository.get_by_id(request.category.id)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
         data = serializer.validated_data
+
+        category_repository = CategoryRepository()
+        category_dto = category_repository.get_by_id(data['category_id'])
+        
         data['category'] = category_dto
         
         try:
@@ -57,10 +58,10 @@ class SubcategoryView(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, status.HTTP_422_UNPROCESSABLE_ENTITY)
         
-        category_repository = CategoryRepository()
-        category_dto = category_repository.get_by_id(request.category.id)
-        
         data = serializer.validated_data
+        category_repository = CategoryRepository()
+        category_dto = category_repository.get_by_id(data['category_id'])
+        
         data['id'] = pk
         data['category'] = category_dto
         

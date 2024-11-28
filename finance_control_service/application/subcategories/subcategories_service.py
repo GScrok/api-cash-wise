@@ -30,7 +30,7 @@ class SubcategoryService(object):
         return self.storage.save(final_dto)
     
     def update(self, subcategory_dto: SubcategoryDTO, id: UUID) -> SubcategoryDTO:
-        if self.storage.verify_existing_by_name_exclude_current:
+        if self.storage.verify_existing_by_name_exclude_current(subcategory_dto, id):
             raise SubcategoryAlreadyExists('A subcategory with this name already exists.')
         
         subcategory = subcategory_dto.to_domain()

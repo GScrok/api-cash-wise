@@ -9,7 +9,7 @@ from uuid import UUID
 class SubcategoryRepository(SubcategoryStorage):
     
     def _dto_to_model(self, subcategory_dto: SubcategoryDTO) -> Subcategory:
-        category = Category.objects.get(pk=subcategory_dto.category.id)
+        category = Category.objects.get(pk=subcategory_dto.category_id)
         
         subcategory              = Subcategory()
         subcategory.id           = subcategory_dto.id
@@ -20,20 +20,10 @@ class SubcategoryRepository(SubcategoryStorage):
         
         return subcategory
     
-    def _model_to_dto(self, subcategory: Subcategory) -> SubcategoryDTO:
-        user_dto = UserDTO(subcategory.category.user.id, subcategory.category.user.email, subcategory.category.user.first_name, subcategory.category.user.last_name)
-        
-        category_dto = CategoryDTO({
-            'id'          : subcategory.category.id,
-            'name'        : subcategory.category.name,
-            'user'        : user_dto,
-            'budget_limit': subcategory.category.budget_limit,
-            'description' : subcategory.category.description
-        })
-        
+    def _model_to_dto(self, subcategory: Subcategory) -> SubcategoryDTO:        
         return SubcategoryDTO({
             'id'          : subcategory.id,
-            'category'    : category_dto,
+            'category_id'    : subcategory.category.id,
             'name'        : subcategory.name,
             'budget_limit': subcategory.budget_limit,
             'description' : subcategory.description,
@@ -42,7 +32,7 @@ class SubcategoryRepository(SubcategoryStorage):
     def verify_existing_by_name(self, subcategory_dto: SubcategoryDTO) -> bool:
         exists = Subcategory.objects.filter(
             name=subcategory_dto.name,
-            category_id=subcategory_dto.category.id
+            category_id=subcategory_dto.category_id
         ).first()
         
         return exists is not None
@@ -50,7 +40,7 @@ class SubcategoryRepository(SubcategoryStorage):
     def verify_existing_by_name_exclude_current(self, subcategory_dto: SubcategoryDTO, pk: UUID) -> bool:
         exists = Subcategory.objects.filter(
             name=subcategory_dto.name,
-            categoty_id=subcategory_dto.category.id 
+            category=subcategory_dto.category_id 
         ).exclude(pk=pk).first()
         
         return exists is not None
@@ -72,9 +62,11 @@ class SubcategoryRepository(SubcategoryStorage):
         return self._model_to_dto(subcategory)
     
     def update(self, subcategory_dto: SubcategoryDTO) -> SubcategoryDTO:
-        subcategory = self._dto_to_model(subcategory_dto)
+        subcategory = Subcategory.objects.get(pk=subcategory_dto.id)
+        category = Category.objects.get(pk=subcategory_dto.category_id)
         
         subcategory.name = subcategory_dto.name
+        subcategory.category = category
         subcategory.budget_limit = subcategory_dto.budget_limit
         subcategory.description = subcategory_dto.description
         subcategory.save()
