@@ -80,7 +80,7 @@ class SubcategoryView(APIView):
         
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class SubcategoryCustomView(APIView):
+class SubcategoryByCategory(APIView):
     
     repository: SubcategoryRepository
     service: SubcategoryService
