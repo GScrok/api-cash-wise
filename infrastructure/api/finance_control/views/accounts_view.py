@@ -35,6 +35,8 @@ class AccountView(APIView):
         data = serializer.validated_data
         data['user'] = user_dto
         
+        print(data)
+        
         try:
             account_dto = AccountDTO(data)
             repository = AccountRepository()
@@ -44,7 +46,7 @@ class AccountView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
-        return Response(AccountSerializer(response).data, status=status.HTTP_201_OK)
+        return Response(AccountSerializer(response).data, status=status.HTTP_201_CREATED)
     
     def put(self, request, pk) -> Response:
         if not pk:

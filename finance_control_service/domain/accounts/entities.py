@@ -13,6 +13,7 @@ class Account(object):
     def __init__(self, data: dict) -> None:
         self.id              = data.get('id'),
         self.user            = data.get('user')
+        self.name            = data.get('name')
         self.initial_balance = data.get('initial_balance')
         
     def create(self):
