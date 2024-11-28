@@ -17,7 +17,7 @@ urlpatterns = [
     path('cards/<uuid:pk>/', CardsView.as_view(), name='card-detail'),
     path('accounts/', AccountView.as_view(), name='accounts-list'),
     path('accounts/<uuid:pk>/', AccountView.as_view(), name='account-detail'),
+    path('subcategories/<uuid:pk>', SubcategoryView.as_view(), name='subcategory-detail'),
     path('subcategories/', SubcategoryView.as_view(), name='subcategories-list'),
-    path('subcategory/<uuid:pk>', SubcategoryView.as_view(), name='subcategory-detail'),
-    path('subcategories/category/<uuid:pk>/', SubcategoryCustomView.as_view(), name='subcategories-by-category'),
+    path('subcategories/category/<uuid:pk>', SubcategoryCustomView.as_view(), name='subcategories-by-category'),
 ]

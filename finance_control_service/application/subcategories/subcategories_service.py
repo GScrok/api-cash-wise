@@ -15,7 +15,7 @@ class SubcategoryService(object):
         return self.storage.get_all()
     
     def get_all_by_category(self, category_id: UUID) -> list[SubcategoryDTO]:
-        return self.storage.get_all(category_id)
+        return self.storage.get_all_by_category(category_id)
     
     def get_by_id(self, id: UUID) -> SubcategoryDTO:
         return self.storage.get_by_id(id)

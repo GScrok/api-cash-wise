@@ -1,4 +1,3 @@
-from typing import Any
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -91,7 +90,10 @@ class SubcategoryCustomView(APIView):
         self.repository = SubcategoryRepository()
         self.service = SubcategoryService(self.repository) 
     
-    def get_all_by_category(self, request, pk):
+    def get(self, request, pk):
+        if not pk:
+            return Response({'error': 'Category id is required!'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
         response = self.service.get_all_by_category(pk)
             
         return Response(SubcategorySerializer(response, many=True).data, status=status.HTTP_200_OK)
