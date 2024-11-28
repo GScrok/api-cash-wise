@@ -46,4 +46,12 @@ class InvalidTransactionType(Exception):
     def __init__(self, message):
         self.message = message
 
+class TransactionUpdateRequiresExistingTransactionId(Exception):
+    def __init__(self, message):
+        self.message = message
+
+class InsufficientFundsForTransaction(Exception):
+    def __init__(self, message):
+        self.message = message
+
         

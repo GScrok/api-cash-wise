@@ -39,7 +39,6 @@ class GoalView(APIView):
         
         category_repository = CategoryRepository()
         category_id = data.get('category_id')
-        print(category_id)
         category_dto = category_repository.get_by_id(category_id) if category_id else None
         
         user_repository = UserRepository()

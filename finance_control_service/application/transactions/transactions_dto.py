@@ -3,19 +3,15 @@ from uuid import UUID
 from datetime import date
 from finance_control_service.domain.transactions.entities import Transaction
 from finance_control_service.application.user.user_dto import UserDTO
-from finance_control_service.application.cards.cards_dto import CardDTO
-from finance_control_service.application.accounts.accounts_dto import AccountDTO
-from finance_control_service.application.categories.categories_dto import CategoryDTO
-from finance_control_service.application.subcategories.subcategories_dto import SubcategoryDTO
 
 @dataclass
 class TransactionDTO(object):
     id: UUID
     user: UserDTO
-    account: AccountDTO
-    card: CardDTO | None
-    category: CategoryDTO
-    subcategory: SubcategoryDTO | None
+    account_id: UUID
+    card_id: UUID | None
+    category_id: UUID
+    subcategory_id: UUID | None
     type: str
     amount: float
     description: str
@@ -24,10 +20,10 @@ class TransactionDTO(object):
     def __init__(self, dict: dict):
         self.id = dict.get('id')
         self.user = dict.get('user')
-        self.account = dict.get('account')
-        self.card = dict.get('card')
-        self.category = dict.get('category')
-        self.subcategory = dict.get('subcategory')
+        self.account_id = dict.get('account_id')
+        self.card_id = dict.get('card_id')
+        self.category_id = dict.get('category_id')
+        self.subcategory_id = dict.get('subcategory_id')
         self.type = dict.get('type')
         self.amount = dict.get('amount')
         self.description = dict.get('description')
@@ -37,10 +33,10 @@ class TransactionDTO(object):
         transaction = Transaction({
             'id': self.id,
             'user': self.user,
-            'account': self.account,
-            'card': self.card,
-            'category': self.category,
-            'subcategory': self.subcategory,
+            'account_id': self.account_id,
+            'card_id': self.card_id,
+            'category_id': self.category_id,
+            'subcategory_id': self.subcategory_id,
             'type': self.type,
             'amount': self.amount,
             'description': self.description,
@@ -51,18 +47,14 @@ class TransactionDTO(object):
     def to_dto(self, transaction: Transaction):
         user_dto = UserDTO(transaction.user.id, transaction.user.email, 
                            transaction.user.first_name, transaction.user.last_name)
-        account_dto = AccountDTO(transaction.account)
-        card_dto = CardDTO(transaction.card.__dict__) if transaction.card else None
-        category_dto = CategoryDTO(transaction.category.__dict__)
-        subcategory_dto = SubcategoryDTO(transaction.subcategories.__dict__) if transaction.subcategory else None
 
         dict = {
             'id': transaction.id,
             'user': user_dto,
-            'account': account_dto,
-            'card': card_dto,
-            'category': category_dto,
-            'subcategory': subcategory_dto,
+            'account_id': transaction.account_id,
+            'card_id': transaction.card_id,
+            'category_id': transaction.category_id,
+            'subcategory_id': transaction.subcategory_id,
             'type': transaction.type,
             'amount': transaction.amount,
             'description': transaction.description,

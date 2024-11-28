@@ -10,10 +10,10 @@ from finance_control_service.domain.transactions.exceptions import *
 class Transaction(object):
     id: UUID
     user: User
-    account: Account
-    card: Card | None
-    category: Category
-    subcategory: Subcategory | None
+    account_id: UUID
+    card_id: UUID | None
+    category_id: UUID
+    subcategory_id: UUID | None
     type: str
     amount: float
     description: str
@@ -22,10 +22,10 @@ class Transaction(object):
     def __init__(self, dict: dict):
         self.id = dict.get('id')
         self.user = dict.get('user')
-        self.account = dict.get('account')
-        self.card = dict.get('card')
-        self.category = dict.get('category')
-        self.subcategory = dict.get('subcategory')
+        self.account_id = dict.get('account_id')
+        self.card_id = dict.get('card_id')
+        self.category_id = dict.get('category_id')
+        self.subcategory_id = dict.get('subcategory_id')
         self.type = dict.get('type')
         self.amount = dict.get('amount')
         self.description = dict.get('description')
@@ -43,10 +43,10 @@ class Transaction(object):
     def is_valid(self):
         if self.user is None:
             raise UserTransactionCannotBeEmpty('The transaction user cannot be empty')
-        if self.account is None:
-            raise AccountTransactionCannotBeEmpty('The transaction account cannot be empty')
-        if self.category is None:
-            raise CategoryTransactionCannotBeEmpty('The transaction category cannot be empty')
+        if self.account_id is None:
+            raise AccountTransactionCannotBeEmpty('The transaction account id cannot be empty')
+        if self.category_id is None:
+            raise CategoryTransactionCannotBeEmpty('The transaction category id cannot be empty')
         if self.type not in ['incoming', 'expense']:
             raise InvalidTransactionType('The transaction type must be incoming or expense')
         if self.amount <= 0:

@@ -35,8 +35,6 @@ class AccountView(APIView):
         data = serializer.validated_data
         data['user'] = user_dto
         
-        print(data)
-        
         try:
             account_dto = AccountDTO(data)
             repository = AccountRepository()

@@ -4,6 +4,7 @@ from .cards_model import Card
 from .accounts_model import Account
 from .subcategories_model import Subcategory
 from .goals_model import Goal
+from .transactions_model import Transaction
 
 __all__ = [
     'User',
@@ -12,4 +13,5 @@ __all__ = [
     'Account',
     'Subcategory',
     'Goal',
+    'Transaction',
 ]
